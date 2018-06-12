@@ -1,0 +1,13 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea/
+jt-common/target/
+jt-manage/jt-manage-controller/jt-manage-controller.iml
+jt-manage/jt-manage-controller/target/generated-sources/
+jt-manage/jt-manage-mapper/jt-manage-mapper.iml
+jt-manage/jt-manage-mapper/target/
+jt-manage/jt-manage-pojo/jt-manage-pojo.iml
+jt-manage/jt-manage-pojo/target/
+jt-manage/jt-manage-service/jt-manage-service.iml
+jt-manage/jt-manage-service/target/
+jt-manage/jt-manage.iml
+jt-parent.iml
