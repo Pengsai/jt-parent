@@ -25,7 +25,7 @@ public interface ItemService {
      * 商品修改
      * @param item
      */
-    void updateItem(Item item);
+    void updateItem(Item item, String desc);
 
     /**
      * 商品删除

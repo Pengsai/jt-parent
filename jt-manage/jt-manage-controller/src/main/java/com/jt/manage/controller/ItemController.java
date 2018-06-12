@@ -58,10 +58,10 @@ public class ItemController {
 
     @RequestMapping(value = "/update")
     @ResponseBody
-    public SysResult updateItem(Item item){
+    public SysResult updateItem(Item item, String desc){
 
         try{
-            itemService.updateItem(item);
+            itemService.updateItem(item, desc);
             logger.info("{商品修改成功}");
             return SysResult.build(200, "商品修改成功");
         } catch (Exception e) {

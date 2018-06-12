@@ -57,14 +57,25 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void updateItem(Item item) {
+    public void updateItem(Item item, String desc) {
         item.setUpdated(new Date());
 
+
         itemMapper.updateByPrimaryKeySelective(item);
+
+        ItemDesc itemDesc = new ItemDesc();
+        itemDesc.setItemId(item.getId());
+        itemDesc.setItemDesc(desc);
+        itemDesc.setUpdated(new Date());
+
+
+        itemDescMapper.updateByPrimaryKeySelective(itemDesc);
     }
 
     @Override
     public void deleteItem(Long[] ids) {
+
+        itemDescMapper.deleteByIDS(ids);
         itemMapper.deleteByIDS(ids);
     }
 
