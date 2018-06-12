@@ -1,7 +1,8 @@
-package com.jt.manage.service;
+package com.jt.manage.service.impl;
 
 import com.jt.manage.mapper.ItemCatMapper;
 import com.jt.manage.pojo.ItemCat;
+import com.jt.manage.service.ItemCatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -2,6 +2,7 @@ package com.jt.manage.service;
 
 import com.jt.common.vo.EasyUIResult;
 import com.jt.manage.pojo.Item;
+import com.jt.manage.pojo.ItemDesc;
 
 public interface ItemService {
 
@@ -18,11 +19,31 @@ public interface ItemService {
      * 商品新增
      * @param item
      */
-    void saveItem(Item item);
+    void saveItem(Item item, String desc);
 
     /**
      * 商品修改
      * @param item
      */
     void updateItem(Item item);
+
+    /**
+     * 商品删除
+     * @param ids
+     */
+    void deleteItem(Long[] ids);
+
+    /**
+     * 修改商品状态
+     * @param ids
+     * @param status
+     */
+    void updateStatus(Long[] ids, int status);
+
+    /**
+     * 查询商品详情
+     * @param itemId
+     * @return
+     */
+    ItemDesc findItemDescById(Long itemId);
 }

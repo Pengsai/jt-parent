@@ -14,4 +14,11 @@ public interface ItemMapper extends SysMapper<Item>{
                             @Param("rows") int rows);
 
     String findItemName(@Param("cid") Long cid);
+
+    /**
+     * 更新商品状态
+     * @param ids
+     * @param status
+     */
+    void updateStatus(Long[] ids, int status);
 }
