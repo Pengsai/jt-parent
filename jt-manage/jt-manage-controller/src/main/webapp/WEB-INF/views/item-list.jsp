@@ -62,7 +62,10 @@
         			// 加载商品描述
         			$.getJSON('/item/query/item/desc/'+data.id,function(_data){
         				if(_data.status == 200){
+        					
         					//UM.getEditor('itemeEditDescEditor').setContent(_data.data.itemDesc, false);
+        					//_data 表示sysRestlt对象    _data.data  表示获取ItemDesc对象
+        					//_data.data.itemDesc  表示itemDesc对象的 itemDesc属性   html代码 
         					itemEditEditor.html(_data.data.itemDesc);
         				}
         			});

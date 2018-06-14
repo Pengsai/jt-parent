@@ -1,15 +1,17 @@
 package com.jt.manage.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.jt.common.po.BasePojo;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.jt.common.po.BasePojo;
-
 
 //商品分类对象
 @Table(name="tb_item_cat")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ItemCat extends BasePojo{
 	
 	@Id  //主键信息

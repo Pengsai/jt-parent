@@ -22,4 +22,8 @@ public interface SysProperties {
         Integer delete = 3;
 
     }
+
+    String  imageUrl = "http://image.jt.com/images/";
+
+    String imagePath = "D:/jt-upload/images/";
 }

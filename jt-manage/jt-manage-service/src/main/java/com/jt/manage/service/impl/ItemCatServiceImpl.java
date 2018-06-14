@@ -1,11 +1,17 @@
 package com.jt.manage.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jt.common.util.RedisUtils;
 import com.jt.manage.mapper.ItemCatMapper;
 import com.jt.manage.pojo.ItemCat;
 import com.jt.manage.service.ItemCatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,12 +26,55 @@ public class ItemCatServiceImpl implements ItemCatService {
     @Autowired
     private ItemCatMapper itemCatMapper;
 
+    @Autowired
+    private RedisUtils redisUtils;
+
+    //将java数据和JSON串之间进行转化
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+
     @Override
-    public List<ItemCat> findItemCatList(Long id) {
+    public List<ItemCat> findItemCatList(Long parentId) {
 
-        ItemCat itemCat = new ItemCat();
-        itemCat.setParentId(id);
+        /**
+         * 先读缓存，缓存没有再读数据库
+         */
 
-        return itemCatMapper.select(itemCat);
+        String itemCatKey = "ITEM_CAT_" + parentId;
+
+        String itemCatsJson = redisUtils.get(itemCatKey);
+
+        List<ItemCat> itemCatList = new ArrayList<>();
+
+
+        try{
+            if (StringUtils.isEmpty(itemCatsJson)) {
+                ItemCat itemCat = new ItemCat();
+                itemCat.setParentId(parentId);
+                itemCatList = itemCatMapper.select(itemCat);
+
+                String JSONResult = objectMapper.writeValueAsString(itemCatList);
+
+                redisUtils.set(itemCatKey, JSONResult, 20*60);
+
+                return itemCatList;
+
+            } else {
+
+                ItemCat[] itemCats = objectMapper.readValue(itemCatsJson, ItemCat[].class);
+
+                for (ItemCat itemCat : itemCats) {
+                    itemCatList.add(itemCat);
+                }
+                return itemCatList;
+            }
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return itemCatList;
     }
+
+
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import redis.clients.jedis.JedisCluster;
 
 import java.util.List;
 
@@ -23,9 +24,12 @@ public class ItemCatController {
     @Autowired
     private ItemCatService itemCatService;
 
+
+
     @RequestMapping(value = "/list")
     @ResponseBody
     public List<ItemCat> findItemCatList(@RequestParam(defaultValue = "0")Long id ){
+
         return itemCatService.findItemCatList(id);
     }
 }

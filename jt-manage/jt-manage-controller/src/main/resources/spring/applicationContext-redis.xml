@@ -1,0 +1,13 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+	<!-- 构建连接池配置信息 -->
+	<bean class="redis.clients.jedis.JedisPool">
+		<constructor-arg name="host" value="${redis.node.ip}" />
+		<constructor-arg name="port" value="${redis.node.port}" />
+	</bean>
+
+	<bean class="com.jt.common.service.RedisPool"/>
+
+</beans>
