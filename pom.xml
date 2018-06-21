@@ -11,6 +11,7 @@
     <module>jt-common</module>
     <module>jt-manage</module>
     <module>jt-web</module>
+      <module>jt-sso</module>
   </modules>
   <packaging>pom</packaging><!--修改打包方式-->
 
@@ -260,6 +261,12 @@
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-validator</artifactId>
       <version>5.1.3.Final</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.16.18</version>
     </dependency>
   </dependencies>
 

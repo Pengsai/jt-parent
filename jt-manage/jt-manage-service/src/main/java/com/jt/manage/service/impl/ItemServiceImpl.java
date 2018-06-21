@@ -7,6 +7,7 @@ import com.jt.manage.mapper.ItemMapper;
 import com.jt.manage.pojo.Item;
 import com.jt.manage.pojo.ItemDesc;
 import com.jt.manage.service.ItemService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private ItemDescMapper itemDescMapper;
+
+    private static final Logger looger = Logger.getLogger(ItemServiceImpl.class);
 
     @Override
     public EasyUIResult findItemList(int page, int rows) {
@@ -89,6 +92,13 @@ public class ItemServiceImpl implements ItemService {
         ItemDesc itemDesc = new ItemDesc();
         itemDesc.setItemId(itemId);
         return itemDescMapper.selectByPrimaryKey(itemDesc);
+    }
+
+    @Override
+    public Item findItemById(Long itemId) {
+
+
+        return itemMapper.selectByPrimaryKey(itemId);
     }
 
 

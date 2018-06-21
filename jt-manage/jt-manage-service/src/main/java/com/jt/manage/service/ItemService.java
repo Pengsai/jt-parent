@@ -46,4 +46,11 @@ public interface ItemService {
      * @return
      */
     ItemDesc findItemDescById(Long itemId);
+
+    /**
+     * 根据商品id查询商品
+     * @param itemId
+     * @return
+     */
+    Item findItemById(Long itemId);
 }
