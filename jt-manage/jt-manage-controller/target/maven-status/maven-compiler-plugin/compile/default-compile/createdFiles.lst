@@ -1,3 +1,4 @@
+com\jt\manage\controller\web\WebItemCatController.class
 com\jt\manage\controller\IndexController.class
 com\jt\manage\controller\uploadController.class
 com\jt\manage\controller\ItemController.class

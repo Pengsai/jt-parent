@@ -2,6 +2,7 @@ package com.jt.common.service;
 
 import com.jt.common.util.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -11,9 +12,10 @@ import redis.clients.jedis.JedisPool;
  * @Author PS
  * @Date 2018/6/14 17:46
  **/
+@Service
 public class RedisPool implements RedisUtils {
 
-    @Autowired
+    @Autowired(required=false)
     private JedisPool jedisPool;
 
     @Override
