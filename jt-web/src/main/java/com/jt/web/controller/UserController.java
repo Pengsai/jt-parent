@@ -1,7 +1,12 @@
 package com.jt.web.controller;
 
+import com.jt.common.vo.SysResult;
+import com.jt.web.pojo.User;
+import com.jt.web.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @ClassName UserController
@@ -13,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/user")
 public class UserController {
 
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "/login")
     public String login() {
@@ -25,5 +32,16 @@ public class UserController {
 
         return "register";
     }
+
+    @RequestMapping(value = "/doRegister")
+    @ResponseBody
+    public SysResult doRegister(User user) {
+
+        SysResult sysResult = userService.doRegister(user);
+
+        return sysResult;
+    }
+
+
 
 }

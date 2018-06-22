@@ -5,12 +5,10 @@
 <mapper namespace="com.jt.sso.mapper.UserMapper">
 	
 	<select id="findCheckUser" resultType="int">
-		select count(*) from tb_user where ${cloumn} = #{param}
+		select count(id) from tb_user where ${cloumn} = #{param}
 	</select>
 	
 	
-	<select id="findUserByU_P" resultType="User">
-		select * from tb_user where username = #{username} and password = #{password}
-	</select>
+
 	
 </mapper>

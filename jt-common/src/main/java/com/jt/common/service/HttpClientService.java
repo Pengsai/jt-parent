@@ -1,9 +1,8 @@
 package com.jt.common.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import org.apache.http.Consts;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -25,22 +24,22 @@ public class HttpClientService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpClientService.class);
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     private CloseableHttpClient httpClient;
 
-    @Autowired(required=false)
+    @Autowired(required = false)
     private RequestConfig requestConfig;
 
     /**
      * 执行get请求
-     * 
+     *
      * @param url
      * @return
      * @throws Exception
      */
-    public String doGet(String url,Map<String, String> params,String encode) throws Exception {
+    public String doGet(String url, Map<String, String> params, String encode) throws Exception {
         LOGGER.info("执行GET请求，URL = {}", url);
-        if(null != params){
+        if (null != params) {
             URIBuilder builder = new URIBuilder(url);
             for (Map.Entry<String, String> entry : params.entrySet()) {
                 builder.setParameter(entry.getKey(), entry.getValue());
@@ -56,7 +55,7 @@ public class HttpClientService {
             response = httpClient.execute(httpGet);
             // 判断返回状态是否为200
             if (response.getStatusLine().getStatusCode() == 200) {
-                if(encode == null){
+                if (encode == null) {
                     encode = "UTF-8";
                 }
                 return EntityUtils.toString(response.getEntity(), encode);
@@ -65,22 +64,22 @@ public class HttpClientService {
             if (response != null) {
                 response.close();
             }
-            // 此处不能关闭httpClient，如果关闭httpClient，连接池也会销毁
+            // 此处不能关闭 ，如果关闭httpClient，连接池也会销毁
         }
         return null;
     }
-    
-    public String doGet(String url, String encode) throws Exception{
+
+    public String doGet(String url, String encode) throws Exception {
         return this.doGet(url, null, encode);
     }
-    
-    public String doGet(String url) throws Exception{
+
+    public String doGet(String url) throws Exception {
         return this.doGet(url, null, null);
     }
 
     /**
      * 带参数的get请求
-     * 
+     *
      * @param url
      * @param params
      * @return
@@ -92,13 +91,13 @@ public class HttpClientService {
 
     /**
      * 执行POST请求
-     * 
+     *
      * @param url
      * @param params
      * @return
      * @throws Exception
      */
-    public String doPost(String url, Map<String, String> params,String encode) throws Exception {
+    public String doPost(String url, Map<String, String> params, String encode) throws Exception {
         // 创建http POST请求
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(requestConfig);
@@ -112,9 +111,9 @@ public class HttpClientService {
 
             // 构造一个form表单式的实体
             UrlEncodedFormEntity formEntity = null;
-            if(encode!=null){
-                formEntity = new UrlEncodedFormEntity(parameters,encode);
-            }else{
+            if (encode != null) {
+                formEntity = new UrlEncodedFormEntity(parameters, encode);
+            } else {
                 formEntity = new UrlEncodedFormEntity(parameters);
             }
             // 将请求实体设置到httpPost对象中
@@ -137,32 +136,48 @@ public class HttpClientService {
         return null;
     }
 
+    /**
+     * 绑定传递的参数
+     *
+     * @param params
+     * @return
+     */
+    public static List<NameValuePair> setParams(Map<String, Object> params) {
+        List<NameValuePair> valuePairs = new LinkedList<>();
+        if (params != null && !params.isEmpty()) {
+            Object value;
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
+                value = entry.getValue();
+                if (Objects.nonNull(value)) {
+                    valuePairs.add(new BasicNameValuePair(entry.getKey(), value.toString()));
+                }
+            }
+        }
+        return valuePairs;
+    }
 
     /**
      * 执行POST请求
-     * 
+     *
      * @param url
      * @param params
      * @return
      * @throws Exception
      */
-    public String doPost(String url, Map<String, String> params) throws Exception {
+    public String doPost(String url, Map<String, Object> params) throws Exception {
         // 创建http POST请求
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(requestConfig);
 
-        if (null != params) {
-            // 设置2个post参数，一个是scope、一个是q
-            List<NameValuePair> parameters = new ArrayList<NameValuePair>(0);
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                parameters.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
-            }
+        //封装请求参数
+        List<NameValuePair> parameters = setParams(params);
 
-            // 构造一个form表单式的实体
-            UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(parameters);
-            // 将请求实体设置到httpPost对象中
-            httpPost.setEntity(formEntity);
-        }
+
+        // 构造一个form表单式的实体
+        UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(parameters, Consts.UTF_8);
+        // 将请求实体设置到httpPost对象中
+        httpPost.setEntity(formEntity);
+
 
         CloseableHttpResponse response = null;
         try {
@@ -184,10 +199,10 @@ public class HttpClientService {
         // 创建http POST请求
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(requestConfig);
-        
-        if(null != json){
+
+        if (null != json) {
             //设置请求体为 字符串
-            StringEntity stringEntity = new StringEntity(json,"UTF-8");
+            StringEntity stringEntity = new StringEntity(json, "UTF-8");
             httpPost.setEntity(stringEntity);
         }
 
