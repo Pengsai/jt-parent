@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.beans.IntrospectionException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -33,15 +33,10 @@ public class UserServiceImpl implements UserService {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
 
-
     @Override
     public SysResult doRegister(User user) {
 
         Map<String, Object> userMap = Maps.newHashMap();
-       /* userMap.put("username", user.getUsername());
-        userMap.put("password", user.getPassword());
-        userMap.put("phone", user.getPhone());
-        userMap.put("email", user.getEmail());*/
 
         try {
             Beans.transformBeanToMap(user, userMap);
@@ -63,4 +58,39 @@ public class UserServiceImpl implements UserService {
         }
 
     }
+
+    @Override
+    public SysResult doLogin(String username, String password) {
+
+        String loginUrl = SysProperties.interUrl.loginUrl;
+
+        HashMap<String, Object> userMap = Maps.newHashMap();
+
+        userMap.put("u", username);
+        userMap.put("p", password);
+
+        try {
+            String sysresultJSON = httpClientService.doPost(loginUrl, userMap);
+
+            return objectMapper.readValue(sysresultJSON, SysResult.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            looger.error(e.getMessage());
+            return SysResult.build(201, "用户登陆失败");
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 }

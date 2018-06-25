@@ -48,6 +48,11 @@ public interface SysProperties {
          * 注册
          */
         String registerUrl = "http://sso.jt.com/user/register";
+
+        /**
+         * 登陆
+         */
+        String loginUrl = "http://sso.jt.com/user/login";
     }
 
     String  imageUrl = "http://image.jt.com/images/";

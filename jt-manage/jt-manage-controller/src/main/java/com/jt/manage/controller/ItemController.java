@@ -6,11 +6,14 @@ import com.jt.common.vo.SysResult;
 import com.jt.manage.pojo.Item;
 import com.jt.manage.pojo.ItemDesc;
 import com.jt.manage.service.ItemService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
@@ -87,7 +90,7 @@ public class ItemController {
             return SysResult.build(201, "商品删除失败");
         }
     }
-    @RequestMapping(value = "/instock")
+    @RequestMapping(value = "/instock",method = RequestMethod.GET)
     @ResponseBody
     public SysResult instockItem(Long[] ids){
 
@@ -105,8 +108,9 @@ public class ItemController {
 
 
 
-    @RequestMapping(value = "/reshelf")
+    @RequestMapping(value = "/reshelf",method = RequestMethod.GET)
     @ResponseBody
+    @ApiOperation(value = "商品上架", httpMethod = "get", notes = "商品上架")
     public SysResult reshelfItem(Long[] ids){
 
         try{
@@ -121,9 +125,10 @@ public class ItemController {
     }
 
     //根据itemId获取商品描述信息
-    @RequestMapping("/query/item/desc/{itemId}")
+    @RequestMapping(value = "/query/item/desc/{itemId}", method = RequestMethod.GET)
     @ResponseBody
-    public SysResult findItemDescById(@PathVariable Long itemId){
+    @ApiOperation(value = "商品", httpMethod = "get", notes = "根据itemId获取商品描述信息")
+    public SysResult findItemDescById(@ApiParam(required = true, name = "itemId", value = "商品Id")@PathVariable Long itemId){
 
         try {
             ItemDesc itemDesc = itemService.findItemDescById(itemId);

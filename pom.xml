@@ -58,6 +58,7 @@
     <jackson.version>2.4.2</jackson.version>
     <httpclient.version>4.3.5</httpclient.version>
     <jedis.version>2.6.2</jedis.version>
+    <springfox-swagger2.version>2.6.1</springfox-swagger2.version>
   </properties>
 
   <dependencies>
@@ -91,6 +92,18 @@
       <artifactId>spring-test</artifactId>
       <version>${spring.framework.version}</version>
       <scope>test</scope>
+    </dependency>
+
+    <!--springfox-swagger2-->
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger2</artifactId>
+      <version>${springfox-swagger2.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger-ui</artifactId>
+      <version>${springfox-swagger2.version}</version>
     </dependency>
 
 

@@ -7,8 +7,10 @@
 	<select id="findCheckUser" resultType="int">
 		select count(id) from tb_user where ${cloumn} = #{param}
 	</select>
-	
-	
+	<select id="findUserByU_P" resultType="com.jt.sso.pojo.User">
+		select * from tb_user
+		where username = #{username} and password = #{password}
+	</select>
 
-	
+
 </mapper>

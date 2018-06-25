@@ -18,4 +18,19 @@ public interface UserService {
      * @return
      */
     String saveUser(User user);
+
+    /**
+     * 是否登陆，并返回票据
+     * @param username
+     * @param password
+     * @return
+     */
+    String findLogin(String username, String password);
+
+    /**
+     * 根据ticket查询用户信息
+     * @param ticket
+     * @return
+     */
+    String findUserByTicket(String ticket);
 }
