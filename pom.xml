@@ -12,6 +12,7 @@
     <module>jt-manage</module>
     <module>jt-web</module>
       <module>jt-sso</module>
+    <module>jt-cart</module>
   </modules>
   <packaging>pom</packaging><!--修改打包方式-->
 
