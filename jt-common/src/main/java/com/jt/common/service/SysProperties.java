@@ -53,6 +53,28 @@ public interface SysProperties {
          * 登陆
          */
         String loginUrl = "http://sso.jt.com/user/login";
+
+        /**
+         * 去购物车
+         */
+        String toCartUrl = "http://cart.jt.com/cart/query/";
+
+        /**
+         * 新增购物车
+         */
+        String saveCartUrl = "http://cart.jt.com/cart/save";
+
+        /**
+         * 修改购物车商品数量
+         */
+        String saveCartNumUrl = "http://cart.jt.com/cart/update/num/";
+
+        /**
+         * 删除购物车
+         */
+        String deleteCartUrl = "http://cart.jt.com/cart/delete/";
+
+
     }
 
     String  imageUrl = "http://image.jt.com/images/";
