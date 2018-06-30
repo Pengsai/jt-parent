@@ -8,6 +8,5 @@
 		<constructor-arg name="port" value="${redis.node.port}" />
 	</bean>
 
-	<bean class="com.jt.common.service.RedisPool"/>
 
 </beans>

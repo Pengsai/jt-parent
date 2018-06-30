@@ -1,0 +1,17 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+	<bean id="httpSolrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer">
+		<constructor-arg index="0" value="${SOLR.URL}"/>
+		<!-- 设置响应解析器，solrj没有提供json解析器，所以通常用xml解析器 -->
+		<property name="parser">
+			<bean class="org.apache.solr.client.solrj.impl.XMLResponseParser"/>
+		</property>
+		<!-- 设置重试次数，推荐设置为1 -->
+		<property name="maxRetries" value="1"/>
+		<!-- 建立连接的最长时间 ,单位是：毫秒-->
+		<property name="connectionTimeout" value="500"/>
+	</bean>
+	
+</beans>

@@ -74,6 +74,11 @@ public interface SysProperties {
          */
         String deleteCartUrl = "http://cart.jt.com/cart/delete/";
 
+        /**
+         * solr搜索
+         */
+        String searchUrl = "http://search.jt.com/search";
+
 
     }
 

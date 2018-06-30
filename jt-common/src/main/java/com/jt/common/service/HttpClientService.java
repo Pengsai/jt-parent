@@ -97,28 +97,24 @@ public class HttpClientService {
      * @return
      * @throws Exception
      */
-    public String doPost(String url, Map<String, String> params, String encode) throws Exception {
+    public String doPost(String url, Map<String, Object> params, String encode) throws Exception {
         // 创建http POST请求
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(requestConfig);
 
-        if (null != params) {
-            // 设置2个post参数，一个是scope、一个是q
-            List<NameValuePair> parameters = new ArrayList<NameValuePair>(0);
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                parameters.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
-            }
+        //封装请求参数
+        List<NameValuePair> parameters = setParams(params);
 
-            // 构造一个form表单式的实体
-            UrlEncodedFormEntity formEntity = null;
-            if (encode != null) {
-                formEntity = new UrlEncodedFormEntity(parameters, encode);
-            } else {
-                formEntity = new UrlEncodedFormEntity(parameters);
-            }
-            // 将请求实体设置到httpPost对象中
-            httpPost.setEntity(formEntity);
+        // 构造一个form表单式的实体
+        UrlEncodedFormEntity formEntity = null;
+        if (encode != null) {
+            formEntity = new UrlEncodedFormEntity(parameters, encode);
+        } else {
+            formEntity = new UrlEncodedFormEntity(parameters);
         }
+        // 将请求实体设置到httpPost对象中
+        httpPost.setEntity(formEntity);
+
 
         CloseableHttpResponse response = null;
         try {
