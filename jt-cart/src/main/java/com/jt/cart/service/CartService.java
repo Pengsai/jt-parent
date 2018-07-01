@@ -1,7 +1,7 @@
 package com.jt.cart.service;
 
-import com.jt.cart.pojo.Cart;
 import com.jt.common.vo.SysResult;
+import com.jt.dubbo.pojo.Cart;
 
 import java.util.List;
 

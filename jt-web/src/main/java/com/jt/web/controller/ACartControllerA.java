@@ -21,13 +21,13 @@ import java.util.List;
  * @Date 2018/6/25 14:37
  **/
 @Controller
-@RequestMapping("/cart")
-public class CartController {
+@RequestMapping("/cartA")
+public class ACartControllerA {
 
     @Autowired
     private CartService cartService;
 
-    private static final Logger logger = Logger.getLogger(CartController.class);
+    private static final Logger logger = Logger.getLogger(ACartControllerA.class);
 
     @RequestMapping(value = "/show", method = RequestMethod.GET)
     public String toCart(Model model) {
