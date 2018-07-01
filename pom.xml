@@ -14,6 +14,7 @@
       <module>jt-sso</module>
     <module>jt-cart</module>
     <module>jt-search</module>
+    <module>jt-jsoup</module>
   </modules>
   <packaging>pom</packaging><!--修改打包方式-->
 
@@ -315,6 +316,13 @@
       <artifactId>lombok</artifactId>
       <version>1.16.18</version>
     </dependency>
+
+      <!-- 爬虫jsoup -->
+      <dependency>
+          <groupId>org.jsoup</groupId>
+          <artifactId>jsoup</artifactId>
+          <version>1.9.1</version>
+      </dependency>
   </dependencies>
 
 
