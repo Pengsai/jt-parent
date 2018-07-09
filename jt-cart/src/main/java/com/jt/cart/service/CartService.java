@@ -18,7 +18,7 @@ public interface CartService {
      * 购物车新增商品
      * @param cart
      */
-    void saveCart(Cart cart);
+    SysResult  saveCart(Cart cart);
 
     /**
      * 修改商品数量

@@ -17,6 +17,7 @@
     <url>http://www.example.com</url>
 
     <properties>
+        <druid.version>1.0.29</druid.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -24,10 +25,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.jt</groupId>
-            <artifactId>jt-common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>${druid.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.zookeeper</groupId>
             <artifactId>zookeeper</artifactId>

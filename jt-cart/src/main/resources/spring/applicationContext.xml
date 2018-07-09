@@ -1,8 +1,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:context="http://www.springframework.org/schema/context"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 	<!-- 使用spring自带的占位符替换功能，可以实现注解方式获取属性文件中的配置值 -->
 	<bean
@@ -26,23 +26,92 @@
 	<context:component-scan base-package="com.jt" />
 
 	<!-- 配置连接池 -->
-	<bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
-		<!-- 数据库驱动 -->
+<!--	<bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+		&lt;!&ndash; 数据库驱动 &ndash;&gt;
 		<property name="driverClass" value="${jdbc.driver}" />
-		<!-- 相应驱动的jdbcUrl -->
+		&lt;!&ndash; 相应驱动的jdbcUrl &ndash;&gt;
 		<property name="jdbcUrl" value="${jdbc.url}" />
-		<!-- 数据库的用户名 -->
+		&lt;!&ndash; 数据库的用户名 &ndash;&gt;
 		<property name="username" value="${jdbc.username}" />
-		<!-- 数据库的密码 -->
+		&lt;!&ndash; 数据库的密码 &ndash;&gt;
 		<property name="password" value="${jdbc.password}" />
-		<!-- 检查数据库连接池中空闲连接的间隔时间，单位是分，默认值：240，如果要取消则设置为0 -->
+		&lt;!&ndash; 检查数据库连接池中空闲连接的间隔时间，单位是分，默认值：240，如果要取消则设置为0 &ndash;&gt;
 		<property name="idleConnectionTestPeriod" value="60" />
-		<!-- 连接池中未使用的链接最大存活时间，单位是分，默认值：60，如果要永远存活设置为0 -->
+		&lt;!&ndash; 连接池中未使用的链接最大存活时间，单位是分，默认值：60，如果要永远存活设置为0 &ndash;&gt;
 		<property name="idleMaxAge" value="30" />
-		<!-- 每个分区最大的连接数 -->
+		&lt;!&ndash; 每个分区最大的连接数 &ndash;&gt;
 		<property name="maxConnectionsPerPartition" value="150" />
-		<!-- 每个分区最小的连接数 -->
+		&lt;!&ndash; 每个分区最小的连接数 &ndash;&gt;
 		<property name="minConnectionsPerPartition" value="5" />
+	</bean>-->
+
+	<!-- Druid数据源  -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<!-- 配置初始化大小、最小、最大 -->
+		<property name="initialSize" value="10" />
+		<property name="minIdle" value="10" />
+		<property name="maxActive" value="300" />
+
+		<!-- 配置获取连接等待超时的时间 -->
+		<property name="maxWait" value="1800" />
+
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+		<!-- mysql SELECT 'x'  Oracle: SELECT 1 FROM DUAL -->
+		<property name="validationQuery" value="SELECT 'x'" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+
+		<!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+		<!-- 如果用Oracle，则把poolPreparedStatements配置为true，mysql可以配置为false。分库分表较多的数据库，建议配置为false。 -->
+		<property name="poolPreparedStatements" value="false" />
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+		<!-- 配置监控统计拦截的filters，去掉后监控界面sql无法统计 wall=防火墙 -->
+		<property name="filters" value="stat" />
 	</bean>
+
+	<!-- 配置druid监控spring jdbc -->
+	<bean id="druid-stat-interceptor"
+		  class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor" />
+
+	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
+		  scope="prototype">
+		<property name="patterns">
+			<list>
+				<value>com.jt.*.service.*</value>
+			</list>
+		</property>
+	</bean>
+	<aop:config>
+		<aop:advisor advice-ref="druid-stat-interceptor"
+					 pointcut-ref="druid-stat-pointcut" />
+	</aop:config>
+
+	<!--创建SqlSessionFactory，同时指定数据源-->
+	<!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">-->
+		<!--<property name="dataSource" ref="dataSource" />-->
+		<!--&lt;!&ndash;指定mybatis总配置文件，订制的environment在spring容器中不在生效&ndash;&gt;-->
+		<!--<property name="configLocation">-->
+			<!--<value>classpath:mybatis/mybatis-config.xml</value>-->
+		<!--</property>-->
+		<!--<property name="mapperLocations">-->
+			<!--<list>-->
+				<!--&lt;!&ndash; 表示在com.xx以下所有目录中，以.xml结尾所有文件-->
+                 <!--mapper/**/*.xml&ndash;&gt;-->
+				<!--<value>classpath:mybatis/*.xml</value>-->
+			<!--</list>-->
+		<!--</property>-->
+	<!--</bean>-->
+	<!--<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">-->
+		<!--<constructor-arg index="0" ref="sqlSessionFactory" />-->
+	<!--</bean>-->
 
 </beans>

@@ -1,0 +1,16 @@
+开放端口
+    vim /etc/sysconfig/iptables
+    重启服务
+    service iptables restart
+    查看需要打开的端口是否生效？
+    /etc/init.d/iptables status
+RabbitMq:
+    service rabbitmq-server start  启动
+    service rabbitmq-server stop 停止
+    service rabbitmq-server restart 重启
+    http://http://192.168.10.129:15672
+    username:guest
+    password:guest
+druid:
+    http://localhost:8094/druid/sql.html
+

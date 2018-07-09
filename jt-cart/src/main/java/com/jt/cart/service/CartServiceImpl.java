@@ -33,7 +33,7 @@ public class CartServiceImpl extends BaseService<Cart> implements CartService {
     }
 
     @Override
-    public void saveCart(Cart cart) {
+    public SysResult  saveCart(Cart cart) {
         /**
          * 如果购物车有该数据，则增加商品数目
          * 如果没有，则新增一条记录
@@ -53,6 +53,8 @@ public class CartServiceImpl extends BaseService<Cart> implements CartService {
             cart.setUpdated(cart.getCreated());
             cartMapper.insert(cart);
         }
+
+        return SysResult.oK();
 
 
     }

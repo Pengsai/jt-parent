@@ -1,8 +1,8 @@
 package com.jt.web.controller;
 
 import com.jt.common.vo.SysResult;
-import com.jt.web.pojo.Cart;
-import com.jt.web.service.CartService;
+import com.jt.dubbo.pojo.Cart;
+import com.jt.dubbo.service.DubboCartRestService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,20 +21,22 @@ import java.util.List;
  * @Date 2018/6/25 14:37
  **/
 @Controller
-@RequestMapping("/cartA")
-public class ACartControllerA {
+@RequestMapping("/cart")
+public class CartController {
+
 
     @Autowired
-    private CartService cartService;
+    private DubboCartRestService dubboCartRestService;
 
-    private static final Logger logger = Logger.getLogger(ACartControllerA.class);
+
+    private static final Logger logger = Logger.getLogger(CartController.class);
 
     @RequestMapping(value = "/show", method = RequestMethod.GET)
     public String toCart(Model model) {
 
         Long userId = 3L;
 
-        List<Cart> cartList = cartService.findCartListByUserList(userId);
+        List<Cart> cartList = dubboCartRestService.myCartList(userId);
         model.addAttribute("cartList", cartList);
 
         //表示转向购物车页面
@@ -47,7 +49,7 @@ public class ACartControllerA {
 
         try {
             Long userId = 3L;
-            SysResult sysResult = cartService.updateCartNum(userId, itemId, num);
+            SysResult sysResult = dubboCartRestService.updateCartNum(userId, itemId, num);
             return sysResult;
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,7 +63,7 @@ public class ACartControllerA {
     public String  deleteCart(@PathVariable Long itemId) {
 
             Long userId = 3L;
-            cartService.deleteCart(userId, itemId);
+        dubboCartRestService.deleteCart(userId, itemId);
             return "redirect:/cart/show.html";
 
     }
@@ -74,8 +76,8 @@ public class ACartControllerA {
         cart.setUserId(userId);
         cart.setItemId(itemId);
 
-        cartService.insertCart(cart);
-
+        //dubboCartRestService.saveCart(cart.getUserId(), cart.getItemId(), cart.getItemTitle(), cart.getItemImage(), cart.getItemPrice(),cart.getNum());
+        dubboCartRestService.saveCart(cart);
         return "redirect:/cart/show.html";
     }
 }
